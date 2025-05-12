@@ -16,7 +16,7 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange();
+    onChange(newValue); // Sans cette valeur rien ne se passe car le useEffect ne se déclenche pas
     setValue(newValue);
     setCollapsed(newValue);
   };
