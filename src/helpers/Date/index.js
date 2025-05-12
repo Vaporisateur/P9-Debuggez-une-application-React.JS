@@ -1,3 +1,5 @@
+// Le code lis en partant de 0 jusqu'à 11, avec la modification de +1 il commence maintenant à 1 jusqu'à 12
+
 export const MONTHS = {
   1: "janvier",
   2: "février",
@@ -13,4 +15,4 @@ export const MONTHS = {
   12: "décembre",
 };
 
-export const getMonth = (date) => MONTHS[date.getMonth()];
+export const getMonth = (date) => MONTHS[date.getMonth() +1];
