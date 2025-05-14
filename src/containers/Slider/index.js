@@ -7,9 +7,9 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
-  );
+  const byDateDesc = data?.focus
+    ? [...data.focus].sort((evtA, evtB) => new Date(evtA.date) - new Date(evtB.date))
+    : [];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,7 +23,7 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <div key={event.id}>
+        <div key={`${event.title}-${event.date}`}>
           <div
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
@@ -38,21 +38,21 @@ const Slider = () => {
               </div>
             </div>
           </div>
-            <div className="SlideCard__paginationContainer">
-              <div className="SlideCard__pagination">
-                {byDateDesc.map((paginationEvent, radioIdx) => (
-                  <input
-                    key={paginationEvent.id}
-                    type="radio"
-                    name="radio-button"
-                    checked={index === radioIdx}
-                    readOnly
-                  />
-                ))}
-              </div>
-            </div>
         </div>
       ))}
+      <div className="SlideCard__paginationContainer">
+        <div className="SlideCard__pagination">
+          {byDateDesc?.map((paginationEvent, idx) => (
+            <input
+              key={`${paginationEvent.title}-${paginationEvent.date}`}
+              type="radio"
+              name="radio-button"
+              checked={index === idx}
+              readOnly
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
