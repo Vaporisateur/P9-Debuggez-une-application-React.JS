@@ -7,17 +7,20 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+
+  // Trie les événements par date décroissante
   const byDateDesc = data?.focus
-    ? [...data.focus].sort((evtA, evtB) => new Date(evtA.date) - new Date(evtB.date))
+    ? [...data.focus].sort((evtA, evtB) => new Date(evtB.date) - new Date(evtA.date))
     : [];
 
   useEffect(() => {
+    // Met en place un intervalle pour changer automatiquement la carte affichée toutes les 5 secondes
     const interval = setInterval(() => {
       setIndex((prevIndex) =>
         prevIndex === byDateDesc.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Nettoie l'intervalle lors du démontage
   }, [byDateDesc]);
 
   return (
@@ -42,6 +45,11 @@ const Slider = () => {
       ))}
       <div className="SlideCard__paginationContainer">
         <div className="SlideCard__pagination">
+          {/* 
+            Ajout d'une pagination sous forme de boutons radio.
+            Pour chaque événement, on crée un bouton radio qui indique si la carte correspondante est affichée.
+            On utilise ici "paginationEvent" pour donner une clé unique à chaque bouton, basée sur le titre et la date de l'événement.
+          */}
           {byDateDesc?.map((paginationEvent, idx) => (
             <input
               key={`${paginationEvent.title}-${paginationEvent.date}`}
